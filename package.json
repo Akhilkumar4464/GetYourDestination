@@ -1,0 +1,30 @@
+{
+  "name": "getyourdestination",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+   "start": " node src/app.js",
+    "dev":"nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akhilkumar4464/GetYourDestination.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akhilkumar4464/GetYourDestination/issues"
+  },
+  "homepage": "https://github.com/Akhilkumar4464/GetYourDestination#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
