@@ -5,16 +5,28 @@ import connectDB from "./config/database.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
+// middleware
+app.use(express.json());
 
+// route
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("API is running 🚀");
 });
-connectDB();
 
-    // ✅ Start server only after DB connection
+// DB connect + server start
+const startServer = async () => {
+  try {
+    await connectDB();
+
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`🔥 Server is running on port ${PORT}`);
     });
 
+  } catch (error) {
+    console.log("❌ Server failed to start:", error);
+  }
+};
+
+startServer();
