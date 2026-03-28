@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
             type:String,
             required:[ true, "name is required"],
             trim :true ,
+            unique: [true," username already exists"]
 
         },
         email:{
@@ -21,7 +22,8 @@ const UserSchema = new mongoose.Schema(
             required:true,
             lowercase: true,
             trim:true  ,
-            minlength: 6
+            minlength: 6,
+        
 
         },
      },
@@ -32,19 +34,19 @@ const UserSchema = new mongoose.Schema(
    
 )
 
-UserSchema.pre("save",async function(){
-    if(!this.isModified('password')) return next();
+// UserSchema.pre("save",async function(){
+//     if(!this.isModified('password')) return next();
 
-    const hashedpassword = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password , hashedpassword);
-    next();
-});
+//     const hashedpassword = await bcrypt.genSalt(10);
+//     this.password = await bcrypt.hash(this.password , hashedpassword);
+//     next();
+// });
 
-UserSchema.methods.comparePassword = async function(password){
-    return await bcrypt.compare(password , this.password);
-}
-;
+// UserSchema.methods.comparePassword = async function(password){
+//     return await bcrypt.compare(password , this.password);
+// }
+// ;
 
-const User = model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
  
 export default User
