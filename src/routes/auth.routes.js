@@ -1,5 +1,5 @@
 import express from "express";
-import Authcontroller from "../controllers/auth.controller.js";
+import { register_user, login_user } from "../controllers/auth.controller.js";
 
 const auth_router = express.Router();
 
@@ -13,8 +13,8 @@ const auth_router = express.Router();
  * @access Public
  */
 
-auth_router.post("/register", Authcontroller.register_user);
+auth_router.post("api/register", register_user);
 
-auth_router.post("/login", Authcontroller.login_user);
+auth_router.post("api/login", login_user);
 
 export default auth_router;

@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("API is running 🚀");
 });
 
-app.use("/api/auth", auth_router);
+app.use("/auth", auth_router);
 
 
 
