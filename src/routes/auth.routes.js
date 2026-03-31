@@ -13,8 +13,8 @@ const auth_router = express.Router();
  * @access Public
  */
 
-auth_router.post("api/register", register_user);
+auth_router.post("/register", register_user);
 
-auth_router.post("api/login", login_user);
+auth_router.post("/login", login_user);
 
 export default auth_router;

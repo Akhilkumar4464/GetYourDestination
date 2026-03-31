@@ -47,7 +47,10 @@ export async function register_user(req, res) {
 
         return res.status(201).json({
             message: "User registered successfully",
-            token
+            token,
+            id: newUser._id,
+            name: newUser.name,
+            email: newUser.email
         });
 
     } catch (error) {
