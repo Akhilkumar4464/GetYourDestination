@@ -1,6 +1,7 @@
 import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Blacklist from "../models/Blacklist.model.js";
 
 
 export async function register_user(req, res) {
@@ -63,10 +64,11 @@ export async function register_user(req, res) {
 
 
 export async function login_user(req, res) {
+    console.log(req.body);
     const { email, password } = req.body;
     try {
 
-        if (!email || password) {
+        if (!email || !password) {
             return res.status(400).json({ message: "Please provide email and password" });
         }
         const user = await User.findOne({ email });
@@ -78,7 +80,11 @@ export async function login_user(req, res) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
         const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.cookie("token", token);
+        res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,      // production me true (HTTPS)
+    sameSite: "lax"
+});
         res.status(200).json({
             message: "Login successful",
             id: user._id,
@@ -90,5 +96,24 @@ export async function login_user(req, res) {
 
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
+    }
+}
+
+
+export async function logout_user(req, res) {
+    try {
+        const token = req.cookies.token;
+
+        if (token) {
+            await Blacklist.create({ token });
+        }
+
+        res.clearCookie("token");
+
+        return res.status(200).json({ message: "Logout successful" });
+
+    } catch (error) {
+        console.log("LOGOUT ERROR:", error); // 👈 debug ke liye
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 }

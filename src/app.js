@@ -2,10 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import auth_router from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
+
+
  const app = express();
-const PORT = process.env.PORT || 4000;
+app.use(cookieParser());
+
+const PORT = process.env.PORT;
 
 // middleware
 app.use(express.json());

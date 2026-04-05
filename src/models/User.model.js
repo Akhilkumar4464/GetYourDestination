@@ -17,10 +17,12 @@ const UserSchema = new mongoose.Schema(
             trim:true
             
         },
+
+        // if you use in password compare by bcryptjs then no need to use lowercase in password because it will be hashed and hashed password is case sensitive
         password:{
            type:String,
             required:true,
-            lowercase: true,
+            // lowercase: true,
             trim:true  ,
             minlength: 6,
         
