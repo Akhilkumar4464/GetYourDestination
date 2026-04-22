@@ -1,9 +1,26 @@
 import React from 'react';
+import '../auth.form.scss';
 
-export const Login = () => {
-  return (
-    <div>
-      <h1>Welcome to login page. Authenticate from here if you signed up.</h1>
-    </div>
-  );
-};
+  export default function  Login (){
+    return (
+    <main>
+      <div className=" form-container">
+        <h1>Welcome to login page</h1>
+<form>
+  <div className="mb-3">
+    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div className="mb-3">
+    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+    <input type="password" className="form-control" id="exampleInputPassword1"/>
+  </div>
+  <button type="submit" className="btn btn-primary">login dev .</button>
+</form>
+      </div>
+    </main>
+  
+  );}
+
+
