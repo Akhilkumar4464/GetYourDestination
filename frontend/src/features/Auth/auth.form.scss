@@ -1,67 +1,135 @@
 main {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #7109da, #4b00a7);
-  flex-direction: column;
+
+  /* 🔥 ANIMATED GRADIENT BACKGROUND */
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background-size: 300% 300%;
+  animation: gradientMove 10s ease infinite;
+
   font-family: 'Poppins', sans-serif;
+  padding: 20px;
+}
 
-  .form-container {
-    min-width: 350px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+/* BACKGROUND ANIMATION */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    // added card feel
-    background: rgba(255, 255, 255, 0.95);
-    padding: 25px;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(8px);
+/* 🔥 FORM (NO CARD, JUST CLEAN LAYOUT) */
+.form-container {
+  width: 100%;
+  max-width: 420px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+/* INPUT GROUP */
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+
+  label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+
+  }
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+
+  color: #fff;
+
+  transition: all 0.25s ease;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.4);
   }
 
-  .form-control {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 13px;
-    border: 1px solid #ba9797;
-    color: #7109da;
-    padding: 10px;
-    border-radius: 1rem;
-    transition: all 0.3s ease;
+  &:focus {
+    border-color: #a855f7;
 
-    label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #444;
-    }
+    box-shadow:
+      0 0 10px rgba(168, 85, 247, 0.6),
+      0 0 20px rgba(168, 85, 247, 0.3);
 
-    input {
-      border: none;
-      outline: none;
-      display: block;
-      color: rgb(27, 125, 211);
-      background: transparent;
-      font-size: 0.95rem;
-    }
-
-    // focus effect (parent highlight)
-    &:focus-within {
-      border-color: #7109da;
-      box-shadow: 0 0 8px rgba(113, 9, 218, 0.3);
-    }
+    transform: translateY(-1px);
   }
+}
+
+/* BUTTON */
+button {
+  height: 50px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  font-weight: 600;
+  color: white;
+
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+
+  box-shadow: 0 0 15px rgba(255, 75, 43, 0.5);
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 25px rgba(255, 75, 43, 0.8),
+      0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* TEXT */
+p {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
 
   a {
-    color: #d8181891;
+    color: #a78bfa;
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: 0.3s;
 
     &:hover {
-      color: #ff1f1f;
       text-decoration: underline;
     }
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .form-container {
+    max-width: 100%;
+  }
+
+  input {
+    height: 48px;
+  }
+
+  button {
+    height: 46px;
   }
 }

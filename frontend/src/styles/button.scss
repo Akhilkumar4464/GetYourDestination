@@ -1,37 +1,75 @@
 .btn {
+  width: 100%;
+  height: 52px; // input ke equal
+  margin-top: 1.2rem;
+
   border: none;
   outline: none;
-  padding-inline: 1.5rem;
-  padding-block: 0.75rem;
-  background: linear-gradient(135deg, #d81818, #a10f0f);
-  color: #ffffff;
-  border: 1px solid #8f3939;
-  transition: all 0.3s ease-in-out;
-  border-radius: 0.75rem;
+  border-radius: 16px;
   cursor: pointer;
-  font-weight: 500;
+
+  font-weight: 600;
+  font-size: 1rem;
   letter-spacing: 0.5px;
 
-  // subtle shadow for depth
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  color: #fff;
 
-  .btn-primary {
-    font-weight: 500;
-    border-radius: 0.5rem;
-  }
+  /* 🔥 Smooth gradient */
+  background: linear-gradient(135deg, #ff3c3c, #b31212);
 
+  /* 🔥 balanced glow */
+  box-shadow: 
+    0 8px 20px rgba(255, 60, 60, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+
+  transition: all 0.25s ease;
+
+  position: relative;
+  overflow: hidden;
+
+  /* ✨ hover */
   &:hover {
-    background: linear-gradient(135deg, #ff1f1f, #b31212);
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(216, 24, 24, 0.4);
+
+    background: linear-gradient(135deg, #ff1f1f, #8f0c0c);
+
+    box-shadow: 
+      0 12px 28px rgba(255, 50, 50, 0.5),
+      0 4px 10px rgba(0, 0, 0, 0.3);
   }
 
+  /* ⚡ click feel */
   &:active {
-    transform: scale(0.96);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transform: scale(0.97);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.25);
   }
 
-  &:focus {
-    box-shadow: 0 0 0 3px rgba(216, 24, 24, 0.3);
+  /* 🎯 focus */
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 60, 60, 0.4);
+  }
+
+  /* 💡 shine animation */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.35),
+      transparent
+    );
+
+    transition: 0.5s;
+  }
+
+  &:hover::before {
+    left: 100%;
   }
 }
