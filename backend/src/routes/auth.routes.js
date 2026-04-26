@@ -34,5 +34,5 @@ auth_router.post("/login", login_user);
 auth_router.get("/logout", logout_user);
 
 
-auth_router.get("/get-me", current_user, get_current_user);
+auth_router.get("/me", current_user, get_current_user);
 export default auth_router;

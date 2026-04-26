@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import Login from "./features/Auth/pages/login.jsx";
+import Login from "./features/Auth/pages/Login.jsx";
 import Register from "./features/Auth/pages/Register.jsx";
 
 export const router = createBrowserRouter([
