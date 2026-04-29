@@ -5,18 +5,21 @@ import '../auth.form.scss';
 
 export default function Register() {
   const navigate = useNavigate();
+  // states for two way binding of the form inputs and loading state from the auth context
   const { loading, handleRegister } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // this function navigates the user to the login after sucsessful reg.
   const handleSubmit = async (e) => {
     e.preventDefault();
     const success = await handleRegister({ name, email, password });
     if (success) {
-      navigate('/');
+      navigate('/login');
     }
   };
+
 
   if (loading) {
     return (

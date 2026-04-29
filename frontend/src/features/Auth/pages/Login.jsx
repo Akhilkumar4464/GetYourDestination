@@ -1,4 +1,4 @@
-import {useState}from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
@@ -7,9 +7,12 @@ import '../auth.form.scss';
 export default function Login() {
 const { loading, handleLogin } = useAuth();
   const navigate = useNavigate();
+  // states for two way binding of the form inputs and loading state from the auth context
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  // this function handles the login and navigates the user to the home page after sucsessful login.
 const handleSubmit = async (e) => {
   e.preventDefault();
   

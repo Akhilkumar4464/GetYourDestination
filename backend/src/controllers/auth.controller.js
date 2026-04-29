@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import Blacklist from "../models/Blacklist.model.js";
 
 
+// REGISTER USER
+
 export async function register_user(req, res) {
     const { name, email, password } = req.body;
 
@@ -64,6 +66,7 @@ export async function register_user(req, res) {
     }
 }
 
+//  login user
 
 export async function login_user(req, res) {
     console.log(req.body);
@@ -104,6 +107,7 @@ export async function login_user(req, res) {
 }
 
 
+//  logout user 
 export async function logout_user(req, res) {
     try {
         const token = req.cookies.token;
@@ -122,6 +126,7 @@ export async function logout_user(req, res) {
     }
 }
 
+// current user
 export async function get_current_user(req, res) {
     try {
         const user = await User.findById(req.user.id).select("-password");
