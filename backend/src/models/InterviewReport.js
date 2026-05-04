@@ -20,7 +20,6 @@ const technicalQuestionSchema = new Schema({
   },
   answer: {
     type: String,
-    required: [true, "Technical question answer is required"],
     default: "Answer not provided",
     trim: true,
   },
@@ -41,7 +40,6 @@ const behavioralQuestionSchema = new Schema({
   },
   answer: {
     type: String,
-    required: [true, "Behavioral question answer is required"],
     default: "Use STAR method",
     trim: true,
   },
@@ -55,15 +53,10 @@ const skillGapSchema = new Schema({
     required: [true, "Skill is required"],
     trim: true,
   },
-  severity: {
+  recommendation: {
     type: String,
-    enum: ["low", "medium", "high"],
-    default: "medium",
-  },
-  type: {
-    type: String,
-    enum: ["low", "medium", "high"],
-    required: [true, "Skill gap type is required"],
+    required: [true, "Skill gap recommendation is required"],
+    trim: true,
   },
 }, { _id: false });
 
@@ -74,14 +67,14 @@ const preparationPlanSchema = new Schema({
     type: String,
     required: [true, "Preparation plan day is required"],
   },
-  focus: {
+  topic: {
     type: String,
-    required: [true, "Preparation plan focus is required"],
+    required: [true, "Preparation plan topic is required"],
     default: "General improvement",
   },
-  tasks: {
+  resources: {
     type: String,
-    required: [true, "Preparation plan tasks is required"],
+    required: [true, "Preparation plan resources is required"],
     default: "Practice and revise",
   },
 }, { _id: false });

@@ -27,7 +27,9 @@ async function safeGenerate(model, prompt, retries = 3) {
   } catch (err) {
     const isRateLimit =
       err?.message?.includes("429") ||
-      err?.message?.includes("Too Many Requests");
+      err?.message?.includes("Too Many Requests") ||
+      err?.message?.includes("503") ||
+      err?.message?.includes("Service Unavailable");
 
     if (isRateLimit && retries > 0) {
       console.log("⏳ Retry after delay...");
@@ -54,29 +56,29 @@ Return ONLY valid JSON in this exact format:
 {
   "technicalQuestions": [
     {
-      "question": "",
-      "intention": "",
-      "answer": ""
+      "question": "generate a relevant technical question",
+      "intention": "what this question tests",
+      "answer": "ideal sample answer"
     }
   ],
   "behavioralQuestions": [
     {
-      "question": "",
-      "intention": "",
-      "answer": ""
+      "question": "generate a relevant behavioral question",
+      "intention": "what this question tests",
+      "answer": "ideal sample answer using STAR method"
     }
   ],
 "skillsGap": [
     {
-      "skill": "",
-      "recommendation": ""
+      "skill": "skill name",
+      "recommendation": "how to improve this skill"
     }
   ],
 "preparationPlan": [
     {
-      "day": "",
-      "topic": "",
-      "resources": ""
+      "day": "Day 1",
+      "topic": "topic to study",
+      "resources": "resources or actions to take"
     }
   ]
 }

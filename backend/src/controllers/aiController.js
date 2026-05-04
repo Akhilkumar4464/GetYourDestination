@@ -17,7 +17,6 @@ async function generateInterviewReport(req, res) {
       return res.status(400).json({ error: "selfDescription and jobDescription are required" });
     }
 
-    // ✅ Fixed PDF parsing for v2.x
     const pdfData = await pdfParse(req.file.buffer);
     const resumeContent = pdfData.text;
 
@@ -35,7 +34,7 @@ async function generateInterviewReport(req, res) {
       behavioralQuestions: interviewReportByAi.behavioralQuestions || [],
       skillsGap: interviewReportByAi.skillsGap || [],
       preparationPlan: interviewReportByAi.preparationPlan || [],
-      user: req.user?._id,
+      user: req.user?.id,
     }).save();
 
     await savedReport.populate("user");
