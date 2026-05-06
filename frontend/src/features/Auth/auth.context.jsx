@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import { me } from './services/auth.api.js';
 
 export const AuthContext = createContext();
 
@@ -7,21 +8,32 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
 
-
-  //   const restoreSession = async () => {
-  //     try {
-  //       const data = await me();
-  //       setUser(data.user);
-  //     } catch (error) {
-  //       console.error('Session restore failed:', error);
-  //       setUser(null);
-  //       localStorage.removeItem('token');
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   restoreSession();
-  // }, []);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+  
+    // ❌ No token → user not logged in
+    if (!storedToken) {
+      setLoading(false);
+      return;
+    }
+  
+    setToken(storedToken);
+  
+    const restoreSession = async () => {
+      try {
+        const data = await me();
+        setUser(data.user);
+      } catch (error) {
+        console.error("Session restore failed:", error);
+        setUser(null);
+        localStorage.removeItem("token");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    restoreSession();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, setUser, loading, setLoading, token, setToken }}>

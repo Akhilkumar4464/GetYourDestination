@@ -1,5 +1,5 @@
 import { AuthContext } from '../../Auth/auth.context.jsx';
-import { useContext , useEffect} from 'react';
+import { useContext, useEffect } from 'react';
 
 import { login, register, logout, me } from '../services/auth.api.js';
 
@@ -66,33 +66,7 @@ export const useAuth = () => {
     }
   };
 
-    useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-  
-    // ❌ No token → user not logged in
-    if (!storedToken) {
-      setLoading(false);
-      return;
-    }
-  
-    setToken(storedToken);
-  
-    const restoreSession = async () => {
-      try {
-        const data = await me(); // ✅ correct function
-        setUser(data.user);
-        
-      } catch (error) {
-        console.error("Session restore failed:", error);
-        setUser(null);
-        localStorage.removeItem("token");
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    restoreSession();
-  }, []);
+
 
   return {
     user,

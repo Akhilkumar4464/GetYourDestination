@@ -96,7 +96,7 @@ const interviewReportSchema = new Schema({
 
   selfDescription: {
     type: String,
-    required: [true, "Self description is required"],
+    default: "",
     trim: true,
   },
 

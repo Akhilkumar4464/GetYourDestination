@@ -14,7 +14,7 @@ global.fetch = fetch;
 
 // Initialize Google Generative AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
- console.log( process.env.GOOGLE_API_KEY);
+console.log(process.env.GOOGLE_API_KEY);
 // delay
 function delay(ms) {
   return new Promise(res => setTimeout(res, ms));
@@ -48,7 +48,7 @@ export async function generateContent({ resume, selfDescription, jobDescription 
     model: "gemini-2.5-flash",
   });
 
- const prompt = `
+  const prompt = `
 You are an expert interviewer.
 
 Return ONLY valid JSON in this exact format:
@@ -97,7 +97,7 @@ ${jobDescription}
 
   const result = await safeGenerate(model, prompt);
   const response = await result.response;
-  
+
 
   const text = response.text();
   const cleanText = text.replace(/```json|```/g, "").trim();
