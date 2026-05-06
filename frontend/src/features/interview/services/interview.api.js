@@ -11,6 +11,8 @@ export const generateInterviewReport = async (userId, resume, selfDescription, j
     // Check if resume exists before appending to avoid appending 'undefined'
     if (resume) {
         formData.append("resume", resume)
+
+
     }
     formData.append("selfDescription", selfDescription || "")
     formData.append("jobDescription", jobDescription || "")

@@ -79,21 +79,43 @@ export default function Home() {
                                 <label>Upload Resume</label>
                                 <span className="badge badge-best">BEST RESULTS</span>
                             </div>
-                            <div className="file-dropzone">
-                                <label htmlFor="resume" className="dropzone-label">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="upload-icon">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                                    </svg>
-                                    <p className="main-text">Click to upload or drag & drop</p>
-                                    <p className="sub-text">PDF or DOCX (Max 5MB)</p>
-                                </label>
-                                <input 
-                                    onChange={(e) => setResumeFile(e.target.files[0])} 
-                                    type="file" 
-                                    name="resume" 
-                                    accept=".pdf,.docx" 
-                                    id="resume" 
-                                    className="file-input" 
+                            <div className={`file-dropzone${resumeFile ? " file-uploaded" : ""}`}>
+                                {resumeFile ? (
+                                    <div className="file-preview">
+                                        <div className="file-preview-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div className="file-preview-info">
+                                            <p className="file-name">{resumeFile.name}</p>
+                                            <p className="file-size">{(resumeFile.size / 1024).toFixed(1)} KB &bull; Ready to upload</p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="file-remove-btn"
+                                            onClick={() => {
+                                                setResumeFile(null);
+                                                document.getElementById("resume").value = "";
+                                            }}
+                                        >✕</button>
+                                    </div>
+                                ) : (
+                                    <label htmlFor="resume" className="dropzone-label">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="upload-icon">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                        </svg>
+                                        <p className="main-text">Click to upload or drag &amp; drop</p>
+                                        <p className="sub-text">PDF or DOCX (Max 5MB)</p>
+                                    </label>
+                                )}
+                                <input
+                                    onChange={(e) => setResumeFile(e.target.files[0] || null)}
+                                    type="file"
+                                    name="resume"
+                                    accept=".pdf,.docx"
+                                    id="resume"
+                                    className="file-input"
                                 />
                             </div>
                         </div>

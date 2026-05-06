@@ -59,6 +59,10 @@ export async function register_user(req, res) {
         });
 
     } catch (error) {
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyValue || {})[0] || "field";
+            return res.status(400).json({ message: `${field} already exists` });
+        }
         return res.status(500).json({
             message: "Server error",
             error: error.message
@@ -69,7 +73,6 @@ export async function register_user(req, res) {
 //  login user
 
 export async function login_user(req, res) {
-    console.log(req.body);
     const { email, password } = req.body;
     try {
 
