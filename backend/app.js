@@ -13,10 +13,12 @@ app.use(cookieParser());
 
 // middleware
 app.use(express.json());
+// backend/app.js line 16 update:
 app.use(cors({
-  origin: true, // reflects the requesting origin, allowing any localhost port
-  credentials: true, // allow cookies
+  origin: [process.env.FRONTEND_URL, "http://localhost:5173"].filter(Boolean),
+  credentials: true
 }));
+
 
 // write all routes here
 app.get("/", (req, res) => {
