@@ -21,6 +21,30 @@
   align-items: center;
   padding: 3rem 1.5rem;
 
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+
+    a { color: #a5b4fc; }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: #a5b4fc;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  }
+
   .interview-container {
     width: 100%;
     max-width: 1100px;
@@ -153,7 +177,10 @@
     border-left: 1px solid var(--border-color);
     width: 280px; /* slightly wider for tags */
     padding-top: 3.5rem; /* Align title downwards a bit */
-    
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
     .section-title {
       font-size: 0.95rem;
       font-weight: 600;
@@ -165,6 +192,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
+      margin-bottom: 2rem;
     }
 
     .tag {
@@ -181,6 +209,77 @@
       &:hover {
         border-color: var(--text-primary);
         background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    /* Generate Resume area */
+    .resume-action {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+
+      .resume-hint {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin: 0 0 0.85rem 0;
+      }
+
+      .resume-btn {
+        width: 100%;
+        padding: 0.65rem 1rem;
+        border-radius: 10px;
+        border: none;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: linear-gradient(135deg, #3730a3, #6366f1);
+        color: #fff;
+        letter-spacing: 0.2px;
+
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, #4338ca, #818cf8);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        &.done {
+          background: linear-gradient(135deg, #059669, #10b981);
+
+          &:hover {
+            background: linear-gradient(135deg, #065f46, #059669);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+          }
+        }
+      }
+
+      .resume-done-note {
+        margin-top: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+
+        code {
+          background: rgba(255,255,255,0.08);
+          padding: 1px 5px;
+          border-radius: 4px;
+          font-size: 0.72rem;
+        }
+
+        kbd {
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 4px;
+          padding: 1px 5px;
+          font-size: 0.72rem;
+        }
       }
     }
   }

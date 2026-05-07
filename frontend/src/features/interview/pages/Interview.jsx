@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import "../styles/interview.scss";
 import { useInterview } from "../hooks/useInterview";
 import { useParams } from "react-router-dom";
+import { downloadResume } from "../services/resume.utils";
 
 export default function Interview() {
   const [activeTab, setActiveTab] = useState('Technical questions');
+  const [resumeStatus, setResumeStatus] = useState('idle'); // 'idle' | 'generating' | 'done'
   const { report, loading, fetchReports } = useInterview();
   const { interviewId } = useParams();
 
@@ -15,11 +17,29 @@ export default function Interview() {
     }
   }, [interviewId]);
 
+  const handleGenerateResume = () => {
+    if (!report) return;
+    setResumeStatus('generating');
+    // Small delay so user sees the "Generating…" state
+    setTimeout(() => {
+      try {
+        downloadResume(report);
+        setResumeStatus('done');
+        // Reset after 3 seconds
+        setTimeout(() => setResumeStatus('idle'), 3000);
+      } catch (err) {
+        console.error("Resume generation failed:", err);
+        setResumeStatus('idle');
+      }
+    }, 600);
+  };
+
   if (loading) {
     return (
       <main className="interview-page">
         <div className="loading-state">
-          <p>Loading your interview report...</p>
+          <div className="spinner"></div>
+          <p>Loading your interview report…</p>
         </div>
       </main>
     );
@@ -68,7 +88,7 @@ export default function Interview() {
           <h2>Preparation Road Map</h2>
           {(report.preparationPlan || []).map((step, idx) => (
             <div key={idx} className="info-card">
-              <h4>{step.day} - {step.topic}</h4>
+              <h4>{step.day} — {step.topic}</h4>
               <p>{step.resources}</p>
             </div>
           ))}
@@ -76,6 +96,11 @@ export default function Interview() {
       );
     }
   };
+
+  const resumeBtnLabel =
+    resumeStatus === 'generating' ? '⏳ Generating…' :
+    resumeStatus === 'done'       ? '✅ Downloaded!' :
+                                    '📄 Generate Resume';
 
   return (
     <main className="interview-page">
@@ -118,6 +143,26 @@ export default function Interview() {
                 {gap.skill}
               </span>
             ))}
+          </div>
+
+          {/* Generate Resume */}
+          <div className="resume-action">
+            <p className="resume-hint">
+              Get a tailored resume skeleton based on this job description.
+            </p>
+            <button
+              id="generate-resume-btn"
+              className={`resume-btn ${resumeStatus}`}
+              onClick={handleGenerateResume}
+              disabled={resumeStatus === 'generating'}
+            >
+              {resumeBtnLabel}
+            </button>
+            {resumeStatus === 'done' && (
+              <p className="resume-done-note">
+                Open the downloaded <code>.html</code> file in your browser, then press <kbd>Ctrl+P</kbd> → Save as PDF.
+              </p>
+            )}
           </div>
         </aside>
       </div>

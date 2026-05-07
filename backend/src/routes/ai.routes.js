@@ -13,11 +13,11 @@ const router = express.Router();
 router.post("/generate", current_user, upload.single('resume'), aiController.generateInterviewReport);
 
 /**
- * GET /api/ai/user/:userId
- * @desc get all interview reports for a specific user
+ * GET /ai/my-reports
+ * @desc get all interview reports for the currently logged-in user (from JWT)
  * @access private
  */
-router.get("/user/:userId", current_user, aiController.getAllInterviewReportsByUserId);
+router.get("/my-reports", current_user, aiController.getAllInterviewReportsByUserId);
 
 /**
  * GET /api/ai/:interviewId

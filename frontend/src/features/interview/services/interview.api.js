@@ -27,15 +27,7 @@ export const generateInterviewReport = async (userId, resume, selfDescription, j
 }
 
 export const getAllInterviewReportsByUserId = async () => {
-    // Backend route defined in ai.routes.js is /user/:userId. 
-    // Wait, earlier the route was just hitting current_user so user ID could be pulled from token.
-    // Since the API doesn't pass userId anymore, we should fetch reports for the current logged-in user.
-    // Your backend says: router.get("/user/:userId", ...)
-    // If you don't pass a userId, it will fail.
-
-    // Let's assume you fetch all for the current user in a different way or pass userId later.
-    // We will leave this matching your controller for now, though you should pass userId.
-    const response = await api.get(`/ai/interview-reports`);
+    const response = await api.get(`/ai/my-reports`);
     return response.data;
 }
 

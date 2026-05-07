@@ -83,22 +83,28 @@ async function getInterivewReportByUserId(req, res) {
  * 
  */
 async function getAllInterviewReportsByUserId(req, res) {
-  const { userId } = req.params;
+  try {
+    // Use the user id from the JWT decoded by current_user middleware
+    const userId = req.user?.id;
 
-  const interviewReports = await InterviewReport.find({ user: userId }).sort({ _id: -1 }).select("-resumeText -selfDescription -jobDescription -__v  -technicalQuestions.answer -behavioralQuestions.answer -skillsGap.reasoning -preparationPlan ")
-    ;
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-  if (!interviewReports) {
-    return res.status(404).json({ error: "Interview reports not found" });
+    const interviewReports = await InterviewReport
+      .find({ user: userId })
+      .sort({ createdAt: -1 })
+      .select("-resumeText -__v -technicalQuestions.answer -behavioralQuestions.answer -skillsGap.reasoning");
+
+    res.status(200).json({
+      message: "Interview reports fetched successfully",
+      success: true,
+      reports: interviewReports
+    });
+  } catch (error) {
+    console.error("getAllInterviewReportsByUserId Error:", error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
-
-  res.status(200).json({
-    message: "Interview reports fetched successfully",
-    success: true,
-    reports: interviewReports
-  })
-
-
 }
 
 export default { generateInterviewReport, getInterivewReportByUserId, getAllInterviewReportsByUserId };
