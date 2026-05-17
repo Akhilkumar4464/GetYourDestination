@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
+import Button from '../../../components/common/Button';
+import SEO from '../../../components/common/SEO';
+
 import '../auth.form.scss';
 
 export default function Register() {
   const navigate = useNavigate();
-  // states for two way binding of the form inputs and loading state from the auth context
   const { loading, handleRegister } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // this function navigates the user to the login after sucsessful reg.
   const handleSubmit = async (e) => {
     e.preventDefault();
     const success = await handleRegister({ name, email, password });
@@ -20,64 +22,75 @@ export default function Register() {
     }
   };
 
-
-  if (loading) {
-    return (
-      <main>
-        <div className="form-container">
-          <h1>Loading...</h1>
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <main>
-      <div className="form-container">
-        <h1>signup here !</h1>
+    <div className="auth-page">
+      <SEO title="Register" description="Create an account on GetYourDestination to start preparing for your dream job." />
+      
+      <motion.div 
+        className="form-container"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <h1>Create Account</h1>
+          <p className="form-subtitle">Join thousands of successful candidates</p>
+        </motion.div>
+
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">Name</label>
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
             <input
-              type="text"
-              className="form-control"
               id="name"
-              placeholder="Enter your name"
+              type="text"
+              placeholder="John Doe"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email address</label>
+
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
             <input
-              type="email"
-              className="form-control"
               id="email"
-              placeholder="Enter your email"
+              type="email"
+              placeholder="name@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
             <input
-              type="password"
-              className="form-control"
               id="password"
-              placeholder="Enter your password"
+              type="password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            {loading ? 'Registering...' : 'Register'}
-          </button>
+
+          <Button 
+            type="submit" 
+            loading={loading}
+            variant="primary"
+          >
+            Create Account
+          </Button>
         </form>
-        <p>already have an account ? <Link to="/login">Login</Link></p>
-      </div>
-    </main>
+
+        <p className="auth-footer">
+          Already have an account? <Link to="/login">Sign in instead</Link>
+        </p>
+      </motion.div>
+    </div>
   );
 }

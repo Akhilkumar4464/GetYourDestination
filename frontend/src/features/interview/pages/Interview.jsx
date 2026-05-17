@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "../styles/interview.scss";
 import { useInterview } from "../hooks/useInterview";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { downloadResume } from "../services/resume.utils";
+import Button from "../../../components/common/Button";
+import SEO from "../../../components/common/SEO";
 
 export default function Interview() {
   const [activeTab, setActiveTab] = useState('Technical questions');
@@ -10,7 +13,6 @@ export default function Interview() {
   const { report, loading, fetchReports } = useInterview();
   const { interviewId } = useParams();
 
-  // Fetch report from backend if not already in context (e.g. on page refresh)
   useEffect(() => {
     if (interviewId && !report) {
       fetchReports(interviewId);
@@ -20,12 +22,10 @@ export default function Interview() {
   const handleGenerateResume = () => {
     if (!report) return;
     setResumeStatus('generating');
-    // Small delay so user sees the "Generating…" state
     setTimeout(() => {
       try {
         downloadResume(report);
         setResumeStatus('done');
-        // Reset after 3 seconds
         setTimeout(() => setResumeStatus('idle'), 3000);
       } catch (err) {
         console.error("Resume generation failed:", err);
@@ -39,7 +39,7 @@ export default function Interview() {
       <main className="interview-page">
         <div className="loading-state">
           <div className="spinner"></div>
-          <p>Loading your interview report…</p>
+          <p>Analyzing your career path…</p>
         </div>
       </main>
     );
@@ -49,123 +49,161 @@ export default function Interview() {
     return (
       <main className="interview-page">
         <div className="loading-state">
-          <p>Report not found. Please <a href="/">go back</a> and generate a new one.</p>
+          <p>Strategy report not found.</p>
+          <Link to="/">
+            <Button variant="outline" style={{ marginTop: '1rem', width: 'auto' }}>Go Back Dashboard</Button>
+          </Link>
         </div>
       </main>
     );
   }
 
   const renderContent = () => {
-    if (activeTab === 'Technical questions') {
-      return (
-        <div className="content-list">
-          <h2>Technical Questions</h2>
-          {(report.technicalQuestions || []).map((q, idx) => (
-            <div key={idx} className="info-card">
-              <h4>Q: {q.question}</h4>
-              <p className="intention"><strong>Intention:</strong> {q.intention}</p>
-              <p className="answer"><strong>Suggested Answer:</strong> {q.answer}</p>
-            </div>
-          ))}
-        </div>
-      );
-    } else if (activeTab === 'Behavioral questions') {
-      return (
-        <div className="content-list">
-          <h2>Behavioral Questions</h2>
-          {(report.behavioralQuestions || []).map((q, idx) => (
-            <div key={idx} className="info-card">
-              <h4>Q: {q.question}</h4>
-              <p className="intention"><strong>Intention:</strong> {q.intention}</p>
-              <p className="answer"><strong>Suggested Answer:</strong> {q.answer}</p>
-            </div>
-          ))}
-        </div>
-      );
-    } else if (activeTab === 'Road Map') {
-      return (
-        <div className="content-list">
-          <h2>Preparation Road Map</h2>
-          {(report.preparationPlan || []).map((step, idx) => (
-            <div key={idx} className="info-card">
-              <h4>{step.day} — {step.topic}</h4>
-              <p>{step.resources}</p>
-            </div>
-          ))}
-        </div>
-      );
-    }
+    const content = {
+      'Technical questions': {
+        title: 'Technical Preparation',
+        items: report.technicalQuestions || []
+      },
+      'Behavioral questions': {
+        title: 'Behavioral Strategy',
+        items: report.behavioralQuestions || []
+      },
+      'Road Map': {
+        title: 'Learning Roadmap',
+        items: report.preparationPlan || []
+      }
+    };
+
+    const activeContent = content[activeTab];
+
+    return (
+      <motion.div 
+        key={activeTab}
+        initial={{ opacity: 0, x: 10 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -10 }}
+        className="content-list"
+      >
+        <h2>{activeContent.title}</h2>
+        {activeContent.items.map((item, idx) => (
+          <motion.div 
+            key={idx} 
+            className="info-card"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.1 }}
+          >
+            {activeTab === 'Road Map' ? (
+              <>
+                <h4>{item.day} — {item.topic}</h4>
+                <p className="answer">{item.resources}</p>
+              </>
+            ) : (
+              <>
+                <h4>Q: {item.question}</h4>
+                <div className="intention">
+                   {item.intention}
+                </div>
+                <div className="answer">
+                  <strong>Suggested Approach</strong>
+                  {item.answer}
+                </div>
+              </>
+            )}
+          </motion.div>
+        ))}
+      </motion.div>
+    );
   };
 
   const resumeBtnLabel =
-    resumeStatus === 'generating' ? '⏳ Generating…' :
-    resumeStatus === 'done'       ? '✅ Downloaded!' :
-                                    '📄 Generate Resume';
+    resumeStatus === 'generating' ? 'Generating…' :
+    resumeStatus === 'done'       ? 'Downloaded!' :
+                                    'Generate Resume';
 
   return (
-    <main className="interview-page">
+    <motion.main 
+      className="interview-page"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <SEO title="Interview Plan" />
+      
       <div className="interview-container">
         {/* Left Sidebar */}
         <aside className="sidebar left-sidebar">
           <ul className="nav-menu">
-            <li
-              className={`nav-item ${activeTab === 'Technical questions' ? 'active' : ''}`}
-              onClick={() => setActiveTab('Technical questions')}
-            >
-              Technical questions
-            </li>
-            <li
-              className={`nav-item ${activeTab === 'Behavioral questions' ? 'active' : ''}`}
-              onClick={() => setActiveTab('Behavioral questions')}
-            >
-              Behavioral questions
-            </li>
-            <li
-              className={`nav-item ${activeTab === 'Road Map' ? 'active' : ''}`}
-              onClick={() => setActiveTab('Road Map')}
-            >
-              Road Map
-            </li>
+            {['Technical questions', 'Behavioral questions', 'Road Map'].map((tab) => (
+              <li
+                key={tab}
+                className={`nav-item ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab === 'Technical questions' && (
+                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                )}
+                {tab === 'Behavioral questions' && (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                )}
+                {tab === 'Road Map' && (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                )}
+                {tab}
+              </li>
+            ))}
           </ul>
         </aside>
 
         {/* Main Content Area */}
         <section className="main-content">
-          {renderContent()}
+          <AnimatePresence mode="wait">
+            {renderContent()}
+          </AnimatePresence>
         </section>
 
         {/* Right Sidebar */}
         <aside className="sidebar right-sidebar">
-          <h3 className="section-title">Skill Gaps</h3>
+          <h3 className="section-title">Focus Areas</h3>
           <div className="tags-container">
             {(report.skillsGap || []).map((gap, idx) => (
-              <span key={idx} className="tag" title={gap.recommendation}>
+              <motion.span 
+                key={idx} 
+                className="tag" 
+                title={gap.recommendation}
+                whileHover={{ scale: 1.05 }}
+              >
                 {gap.skill}
-              </span>
+              </motion.span>
             ))}
           </div>
 
-          {/* Generate Resume */}
           <div className="resume-action">
             <p className="resume-hint">
-              Get a tailored resume skeleton based on this job description.
+              Get a tailored resume skeleton based on this job requirements.
             </p>
-            <button
-              id="generate-resume-btn"
-              className={`resume-btn ${resumeStatus}`}
+            <Button
+              variant={resumeStatus === 'done' ? 'secondary' : 'primary'}
               onClick={handleGenerateResume}
-              disabled={resumeStatus === 'generating'}
+              loading={resumeStatus === 'generating'}
+              icon={() => (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              )}
             >
               {resumeBtnLabel}
-            </button>
+            </Button>
+            
             {resumeStatus === 'done' && (
-              <p className="resume-done-note">
-                Open the downloaded <code>.html</code> file in your browser, then press <kbd>Ctrl+P</kbd> → Save as PDF.
-              </p>
+              <motion.div 
+                className="resume-done-note"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                Open the <code>.html</code> file → <code>Ctrl+P</code> → Save as PDF.
+              </motion.div>
             )}
           </div>
         </aside>
       </div>
-    </main>
+    </motion.main>
   );
 }
