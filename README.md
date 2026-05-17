@@ -1,4 +1,4 @@
-# SkillBridge (GetYourDestination)
+#  (GetYourDestination)
 
 Welcome to the SkillBridge platform! SkillBridge is an AI-powered interview simulation and preparation tool designed to give you a competitive edge.
 
