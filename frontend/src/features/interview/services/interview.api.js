@@ -28,7 +28,7 @@ export const generateInterviewReport = async (userId, resume, selfDescription, j
     // The backend route defined in ai.routes.js is /generate (so /api/ai/generate)
     const response = await api.post(`/ai/generate`, formData);
     return response.data;
-
+};
 export const getAllInterviewReportsByUserId = async () => {
     const response = await api.get(`/ai/my-reports`);
     return response.data;
