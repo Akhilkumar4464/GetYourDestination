@@ -4,6 +4,14 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "https://getyourdestination-1.onrender.com",
     withCredentials: true,
 })
+//  new code block add for :Fix: Axios interceptor add karo jo har request mein token attach kare
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export const generateInterviewReport = async (userId, resume, selfDescription, jobDescription) => {
     const formData = new FormData() // Capital F! formData is a built in browser API
@@ -20,7 +28,8 @@ export const generateInterviewReport = async (userId, resume, selfDescription, j
     // The backend route defined in ai.routes.js is /generate (so /api/ai/generate)
     const response = await api.post(`/ai/generate`, formData, {
         headers: {
-            "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}` // ye interceptor se automatically lag jayega
+            // "Content-Type": "multipart/form-data",
         }
     });
     return response.data;
