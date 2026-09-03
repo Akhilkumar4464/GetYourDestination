@@ -1,124 +1,422 @@
 .auth-page {
   min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 2rem;
+  justify-content: center;
+  padding: 1.5rem;
   background: var(--bg-main);
+  position: relative;
+  overflow-x: hidden;
+
+  /* Ambient glowing orbs */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    max-width: 600px;
+    max-height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    right: -10%;
+    width: 50vw;
+    height: 50vw;
+    max-width: 600px;
+    max-height: 600px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+.auth-split-layout {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 620px;
+  background: rgba(19, 28, 46, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl), 0 0 40px rgba(99, 102, 241, 0.1);
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
+}
+
+/* ============================================================
+   LEFT PITCH / SHOWCASE PANEL (Desktop & Tablet)
+   ============================================================ */
+.auth-pitch-panel {
+  display: none;
+  flex: 1.1;
+  padding: 3.5rem 3rem;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.6) 100%);
+  border-right: 1px solid var(--border-light);
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
   overflow: hidden;
 
   &::before {
     content: '';
     position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 40%;
-    height: 40%;
-    background: radial-gradient(circle, hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.15) 0%, transparent 70%);
-    z-index: 0;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+    pointer-events: none;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -10%;
-    right: -10%;
-    width: 40%;
-    height: 40%;
-    background: radial-gradient(circle, hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1) 0%, transparent 70%);
-    z-index: 0;
+  @media (min-width: 900px) {
+    display: flex;
   }
 }
 
-.form-container {
-  width: 100%;
-  max-width: 440px;
-  padding: 3rem;
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
+.pitch-header {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  z-index: 1;
-  position: relative;
+  gap: 1.25rem;
+}
 
-  h1 {
-    font-size: 2.25rem;
-    text-align: center;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--text-main), var(--primary));
+.pitch-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.pitch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius-full);
+  color: #c084fc;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.pitch-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+
+  span {
+    background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.pitch-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.pitch-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin: 1.5rem 0;
+}
+
+.pitch-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+
+  &:hover {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.25);
+    transform: translateX(4px);
+  }
+
+  .feature-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .feature-text {
+    h4 {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+    p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+  }
+}
+
+.pitch-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.pitch-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .form-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-top: -1.5rem;
-    margin-bottom: 0.5rem;
+  .stat-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-weight: 600;
   }
+}
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+/* ============================================================
+   RIGHT AUTH FORM PANEL
+   ============================================================ */
+.auth-form-panel {
+  flex: 1;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    padding: 2rem 1.5rem;
   }
+}
 
-  .form-group {
+.form-wrapper {
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-header {
+  margin-bottom: 2rem;
+  text-align: left;
+
+  .mobile-brand-logo {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 0.625rem;
+    margin-bottom: 1.25rem;
 
-    label {
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--text-main);
-      margin-left: 0.25rem;
+    @media (min-width: 900px) {
+      display: none;
+    }
+  }
+
+  h1 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+  }
+}
+
+.auth-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .field-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--text-dim);
+      pointer-events: none;
+      transition: var(--transition);
     }
 
     input {
       width: 100%;
-      height: 52px;
-      padding: 0 1.25rem;
-      background: var(--bg-main);
+      height: 48px;
+      padding: 0 42px 0 42px;
+      background: var(--bg-input);
       border: 1.5px solid var(--border-light);
       border-radius: var(--radius-md);
       color: var(--text-main);
       font-family: var(--font-main);
-      font-size: 1rem;
+      font-size: 0.9375rem;
       transition: var(--transition);
 
       &::placeholder {
-        color: var(--text-muted);
-        opacity: 0.6;
+        color: var(--text-dim);
       }
 
       &:focus {
         outline: none;
         border-color: var(--primary);
-        box-shadow: 0 0 0 4px hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1);
+        background: var(--bg-card);
+        box-shadow: 0 0 0 4px var(--primary-soft), 0 0 16px rgba(99, 102, 241, 0.2);
       }
     }
-  }
 
-  .auth-footer {
-    text-align: center;
-    font-size: 0.9375rem;
-    color: var(--text-muted);
+    &:focus-within .field-icon {
+      color: var(--primary-light);
+    }
 
-    a {
-      font-weight: 600;
-      margin-left: 0.25rem;
+    .eye-toggle-btn {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+
+      &:hover {
+        color: var(--text-main);
+      }
     }
   }
 }
 
-@media (max-width: 576px) {
-  .form-container {
-    padding: 2rem;
+/* Password strength indicator */
+.password-strength-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+
+  .strength-bars {
+    display: flex;
+    gap: 4px;
+    height: 4px;
+    width: 100%;
   }
-}
+
+  .strength-bar-segment {
+    flex: 1;
+    border-radius: var(--radius-full);
+    background: rgba(148, 163, 184, 0.15);
+    transition: var(--transition);
+
+    &.filled-weak { background: #ef4444; }
+    &.filled-medium { background: #f59e0b; }
+    &.filled-strong { background: #10b981; }
+  }
+
+  .strength-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+}
+
+/* Demo account quick login box */
+.demo-account-box {
+  margin-top: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px dashed rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  .demo-info {
+    display: flex;
+    flex-direction: column;
+
+    .demo-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: #c084fc;
+    }
+
+    .demo-desc {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+  }
+}
+
+.auth-footer-prompt {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+
+  a {
+    font-weight: 700;
+    color: var(--primary-light);
+    margin-left: 0.35rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
