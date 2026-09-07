@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
   
-    // ❌ No token → user not logged in
+    // No token → user not logged in
     if (!storedToken) {
       setLoading(false);
       return;
@@ -24,8 +24,9 @@ export const AuthProvider = ({ children }) => {
         const data = await me();
         setUser(data.user);
       } catch (error) {
-        console.error("Session restore failed:", error);
+        // Stale or expired token - reset state and clear token
         setUser(null);
+        setToken(null);
         localStorage.removeItem("token");
       } finally {
         setLoading(false);

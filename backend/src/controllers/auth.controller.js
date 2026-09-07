@@ -38,14 +38,14 @@ export async function register_user(req, res) {
         const token = jwt.sign(
             { id: newUser._id, name: newUser.name },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "7d" }
         );
 
         // COOKIE (secure)
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false, // true in production (HTTPS)
-            sameSite: "strict"
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
         });
 
         return res.status(201).json({
@@ -87,12 +87,12 @@ export async function login_user(req, res) {
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
-        const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: "7d" });
         res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,      // production me true (HTTPS)
-    sameSite: "lax"
-});
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+        });
         res.status(200).json({
             message: "Login successful",
             user: {

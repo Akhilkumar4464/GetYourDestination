@@ -51,12 +51,6 @@ export async function logout() {
 }
 
 export async function me() {
-  try {
-    const response = await api.get('/auth/me');
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    console.error('Error in me API:', error.response ? error.response.data : error.message);
-    throw error;
-  }
+  const response = await api.get('/auth/me');
+  return response.data;
 }
