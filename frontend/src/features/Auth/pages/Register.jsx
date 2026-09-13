@@ -25,7 +25,7 @@ export default function Register() {
     if (!password) return 0;
     let score = 0;
     if (password.length >= 6) score += 1;
-    if (password.length >= 10 || /[A-Z]/.test(password) && /[0-9]/.test(password)) score += 1;
+    if (password.length >= 10 || (/[A-Z]/.test(password) && /[0-9]/.test(password))) score += 1;
     if (/[^A-Za-z0-9]/.test(password) && password.length >= 8) score += 1;
     return score;
   };
@@ -48,7 +48,7 @@ export default function Register() {
     const success = await handleRegister({ name, email, password });
     if (success) {
       showToast('Account created successfully! Welcome to GetYourDestination.', 'success');
-      navigate('/');
+      navigate('/service');
     } else {
       showToast('Registration failed. Email may already be in use.', 'error');
     }
@@ -57,7 +57,7 @@ export default function Register() {
   return (
     <div className="auth-page">
       <SEO 
-        title="Create Account — GetYourDestination v2" 
+        title="Create Account — GetYourDestination Executive Edition" 
         description="Create your GetYourDestination account and start mastering your upcoming interviews today." 
       />
 
@@ -74,27 +74,27 @@ export default function Register() {
         <div className="auth-form-panel">
           <div className="form-wrapper">
             <div className="form-header">
-              <div className="mobile-brand-logo">
+              <Link to="/" className="mobile-brand-logo">
                 <div className="brand-icon-wrapper-sm">
                   <Sparkles size={16} />
                 </div>
                 <span className="brand-name">GetYourDestination</span>
-              </div>
+              </Link>
               <h1>Create Account</h1>
-              <p className="form-subtitle">Unlock personalized interview strategies & ATS resume templates</p>
+              <p className="form-subtitle">Unlock role-calibrated technical deep dives and STAR matrices</p>
             </div>
 
             <form onSubmit={handleSubmit} className="auth-form-body">
               <div className="form-field-group">
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="reg-name">Full Name</label>
                 <div className="input-with-icon">
                   <User size={18} className="field-icon" />
                   <input
-                    id="name"
-                    type="text"
-                    placeholder="Alex Morgan"
+                    id="reg-name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    type="text"
+                    placeholder="Candidate Name"
                     autoComplete="name"
                     required
                   />
@@ -102,15 +102,15 @@ export default function Register() {
               </div>
 
               <div className="form-field-group">
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="reg-email">Email Address</label>
                 <div className="input-with-icon">
                   <Mail size={18} className="field-icon" />
                   <input
-                    id="email"
-                    type="email"
-                    placeholder="alex.morgan@company.com"
+                    id="reg-email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    placeholder="candidate@company.com"
                     autoComplete="email"
                     required
                   />
@@ -118,26 +118,21 @@ export default function Register() {
               </div>
 
               <div className="form-field-group">
-                <label htmlFor="password">
-                  <span>Password</span>
-                  {password && (
-                    <span className="strength-text">{strengthLabels[strengthScore]}</span>
-                  )}
-                </label>
+                <label htmlFor="reg-password">Password</label>
                 <div className="input-with-icon">
                   <Lock size={18} className="field-icon" />
                   <input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••••••"
+                    id="reg-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Minimum 6 characters"
                     autoComplete="new-password"
                     required
                   />
                   <button
                     type="button"
-                    className="eye-toggle-btn"
+                    className="password-toggle-btn"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
@@ -148,10 +143,11 @@ export default function Register() {
                 {password && (
                   <div className="password-strength-container">
                     <div className="strength-bars">
-                      <div className={`strength-bar-segment ${strengthScore >= 1 ? (strengthScore === 1 ? 'filled-weak' : strengthScore === 2 ? 'filled-medium' : 'filled-strong') : ''}`} />
-                      <div className={`strength-bar-segment ${strengthScore >= 2 ? (strengthScore === 2 ? 'filled-medium' : 'filled-strong') : ''}`} />
-                      <div className={`strength-bar-segment ${strengthScore >= 3 ? 'filled-strong' : ''}`} />
+                      <div className={`strength-segment ${strengthScore >= 1 ? `active-${strengthScore}` : ''}`}></div>
+                      <div className={`strength-segment ${strengthScore >= 2 ? `active-${strengthScore}` : ''}`}></div>
+                      <div className={`strength-segment ${strengthScore >= 3 ? `active-${strengthScore}` : ''}`}></div>
                     </div>
+                    <span className="strength-label">{strengthLabels[strengthScore]}</span>
                   </div>
                 )}
               </div>
@@ -159,19 +155,19 @@ export default function Register() {
               <Button 
                 type="submit" 
                 loading={loading}
-                variant="glow"
+                variant="primary"
                 size="lg"
                 iconPosition="right"
                 icon={UserPlus}
                 style={{ width: '100%', marginTop: '0.5rem' }}
               >
-                Create Free Account
+                Create Account & Launch Studio
               </Button>
             </form>
 
-            <p className="auth-footer-prompt">
-              Already have an account? <Link to="/login">Sign in instead</Link>
-            </p>
+            <div className="auth-form-footer">
+              Already have an account? <Link to="/login">Sign In</Link>
+            </div>
           </div>
         </div>
       </motion.div>

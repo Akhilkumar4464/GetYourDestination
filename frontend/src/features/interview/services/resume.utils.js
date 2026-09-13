@@ -100,8 +100,9 @@ export function buildResumeHTML(report) {
 
     /* Header */
     .resume-header {
-      background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 100%);
-      color: #fff;
+      background: linear-gradient(135deg, #0B0D10 0%, #1A1E24 100%);
+      border-bottom: 2px solid #C9A227;
+      color: #F4F1E9;
       padding: 40px 48px 32px;
     }
 
@@ -109,13 +110,14 @@ export function buildResumeHTML(report) {
       font-size: 28px;
       font-weight: 700;
       letter-spacing: -0.5px;
+      color: #F4F1E9;
       margin-bottom: 6px;
     }
 
     .resume-header .role {
       font-size: 15px;
-      color: #c7d2fe;
-      font-weight: 500;
+      color: #E5C358;
+      font-weight: 600;
       margin-bottom: 20px;
     }
 
@@ -124,7 +126,7 @@ export function buildResumeHTML(report) {
       gap: 24px;
       flex-wrap: wrap;
       font-size: 13px;
-      color: #a5b4fc;
+      color: #9A968B;
     }
 
     .contact-row span::before {
@@ -144,7 +146,7 @@ export function buildResumeHTML(report) {
 
     .side-col {
       padding: 36px 28px;
-      background: #f9fafb;
+      background: #fafafa;
     }
 
     /* Section */
@@ -155,10 +157,10 @@ export function buildResumeHTML(report) {
       font-weight: 700;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-      color: #3730a3;
+      color: #A8841B;
       margin-bottom: 14px;
       padding-bottom: 6px;
-      border-bottom: 2px solid #e0e7ff;
+      border-bottom: 2px solid #F3EBD3;
     }
 
     /* Summary */

@@ -1,59 +1,79 @@
 import React from 'react';
-import { Sparkles, Shield, Cpu, Github, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Sparkles, ShieldCheck, Cpu, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container-fluid footer-content">
+        {/* Brand Column */}
         <div className="footer-brand-section">
           <div className="footer-brand-row">
             <div className="brand-icon-wrapper-sm">
-              <Sparkles size={16} />
+              <Sparkles size={15} />
             </div>
             <span className="footer-brand-name">GetYourDestination</span>
-            <span className="footer-version-badge">v2.0 Architecture</span>
+            <span className="footer-version-badge">v2.0 PRO</span>
           </div>
           <p className="footer-tagline">
-            Next-generation AI career GPS & intelligent interview preparation studio. Tailored STAR responses, skills gap matrices, and live ATS resumes.
+            Bespoke AI career intelligence & executive interview strategy suite. Empowering candidates with tailored technical deep dives, STAR behavioral matrix frameworks, and ATS-optimized assets.
           </p>
+          <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.5rem' }}>
+            <Link to="/service" className="btn-gold-outline" style={{ padding: '0.45rem 1rem', fontSize: '0.8rem' }}>
+              Launch Studio <ArrowUpRight size={14} />
+            </Link>
+          </div>
         </div>
 
-        <div className="footer-links-grid">
-          <div className="footer-column">
-            <h4 className="footer-col-title">Product</h4>
-            <a href="#strategy-generator">Strategy Engine</a>
-            <a href="#previous-reports">Saved Reports</a>
-            <a href="#resume-builder">Resume Builder</a>
-          </div>
+        {/* Navigation Column */}
+        <div className="footer-column">
+          <h4 className="footer-col-title">Navigation</h4>
+          <Link to="/">Home Overview</Link>
+          <Link to="/about">Our Mission & Story</Link>
+          <Link to="/service">Strategy Studio</Link>
+          <Link to="/feedback">Reviews & Ratings</Link>
+          <Link to="/contact">Advisory & Support</Link>
+        </div>
 
-          <div className="footer-column">
-            <h4 className="footer-col-title">Capabilities</h4>
-            <span>Technical Deep Dives</span>
-            <span>STAR Behavioral Matrix</span>
-            <span>Prep Roadmaps</span>
-          </div>
+        {/* Capabilities Column */}
+        <div className="footer-column">
+          <h4 className="footer-col-title">Capabilities</h4>
+          <span>Targeted Technical Dives</span>
+          <span>STAR Behavioral Matrix</span>
+          <span>Adaptive 7-Day Roadmaps</span>
+          <span>Skills Gap Diagnostics</span>
+          <span>Print-Ready ATS Resumes</span>
+        </div>
 
-          <div className="footer-column">
-            <h4 className="footer-col-title">Engine Specs</h4>
-            <div className="engine-spec-badge">
-              <Cpu size={14} />
-              <span>Google Gemini AI</span>
-            </div>
-            <div className="engine-spec-badge">
-              <Shield size={14} />
-              <span>Enterprise Grade</span>
-            </div>
+        {/* Advisory & Security Column */}
+        <div className="footer-column">
+          <h4 className="footer-col-title">System & Security</h4>
+          <div className="engine-spec-badge">
+            <Cpu size={14} style={{ color: 'var(--gold-primary)' }} />
+            <span>Google Gemini Flash</span>
+          </div>
+          <div className="engine-spec-badge">
+            <ShieldCheck size={14} style={{ color: 'var(--success)' }} />
+            <span>Encrypted & Private</span>
+          </div>
+          <div className="engine-spec-badge">
+            <CheckCircle2 size={14} style={{ color: 'var(--gold-light)' }} />
+            <span>94.8% Candidate Match</span>
           </div>
         </div>
       </div>
 
       <div className="footer-bottom-bar container-fluid">
         <p className="copyright-text">
-          &copy; {new Date().getFullYear()} GetYourDestination • Built with React 19 & Google Gemini AI
+          &copy; {new Date().getFullYear()} GetYourDestination • All rights reserved. Obsidian & Gold Advisory Edition.
         </p>
-        <div className="footer-security-note">
-          <span className="status-indicator-green"></span>
-          <span>All AI Systems Operational</span>
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <Link to="/contact" style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Help Center</Link>
+          <Link to="/about" style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Terms of Service</Link>
+          <div className="footer-security-note">
+            <span className="status-indicator-green"></span>
+            <span>All AI Systems Operational</span>
+          </div>
         </div>
       </div>
     </footer>
