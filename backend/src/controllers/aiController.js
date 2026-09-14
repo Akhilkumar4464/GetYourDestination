@@ -42,8 +42,6 @@ async function generateInterviewReport(req, res) {
       user: req.user?.id,
     }).save();
 
-    await savedReport.populate("user");
-
     res.status(201).json({
       success: true,
       message: "Interview report generated successfully",

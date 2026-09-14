@@ -148,8 +148,9 @@ export default function Feedback() {
         <section className="feedback-header-section">
           <div className="feedback-glow" />
           <div className="container-fluid">
-            <span className="gold-badge" style={{ marginBottom: '1.25rem' }}>
-              <Sparkles size={13} /> Verified Candidate Experiences
+            <span className="gold-badge" style={{ marginBottom: '1.25rem', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 1rem' }}>
+              <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 18, height: 18, borderRadius: 3, objectFit: 'cover' }} />
+              <span>Verified Candidate Experiences</span>
             </span>
             <h1>
               Trusted By Thousands Of <br />

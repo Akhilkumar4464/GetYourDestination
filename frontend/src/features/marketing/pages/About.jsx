@@ -72,7 +72,7 @@ export default function About() {
     {
       number: 'PILLAR 03',
       title: 'Rapid Velocity',
-      desc: 'Receive comprehensive technical deep dives and a complete 7-day preparation schedule in under 30 seconds.'
+      desc: 'Receive comprehensive technical deep dives and a complete 7-day preparation schedule in just 3 to 5 seconds.'
     },
     {
       number: 'PILLAR 04',
@@ -114,8 +114,9 @@ export default function About() {
           <div className="about-glow" />
           <div className="container-fluid">
             <motion.div variants={itemVariants}>
-              <span className="gold-badge" style={{ marginBottom: '1.25rem' }}>
-                <Sparkles size={13} /> Our Story & Mission
+              <span className="gold-badge" style={{ marginBottom: '1.25rem', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 1rem' }}>
+                <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 18, height: 18, borderRadius: 3, objectFit: 'cover' }} />
+                <span>Our Story & Mission</span>
               </span>
             </motion.div>
             <motion.h1 variants={itemVariants}>
@@ -142,7 +143,7 @@ export default function About() {
                   Job postings today are deeply specialized. A Frontend Engineer at Stripe requires radically different preparation than a Backend Engineer at Amazon. Generic preparation fails high-stakes opportunities.
                 </p>
                 <p>
-                  GetYourDestination was engineered to solve this gap: an intelligent advisory tool that reads your specific resume, ingests the target company's job description, and synthesizes a high-precision strategy in seconds.
+                  GetYourDestination was engineered to solve this gap: an intelligent advisory tool that reads your specific resume, ingests the target company's job description, and synthesizes a high-precision strategy in 3 to 5 seconds.
                 </p>
 
                 <div className="founder-quote">
@@ -154,12 +155,19 @@ export default function About() {
               </motion.div>
 
               <motion.div className="story-visual-card" variants={itemVariants}>
+                <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
+                  <img 
+                    src="/logo.png" 
+                    alt="GetYourDestination — Careers with Clarity" 
+                    style={{ maxHeight: '110px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 6px 18px rgba(201,162,39,0.35))' }} 
+                  />
+                </div>
                 <span className="gold-badge mission-badge">
                   <ShieldCheck size={13} /> The Core Mandate
                 </span>
                 <h3 className="mission-title">Democratizing Elite Advisory Intelligence</h3>
                 <p className="mission-desc">
-                  We combine Google Gemini's advanced reasoning capabilities with structured executive hiring frameworks to provide every candidate with an instant, personalized interview playbook.
+                  The iconic Golden <strong>G</strong> with an ascending road and star-crested arrow embodies your career trajectory: transforming ambiguity into unflinching clarity and purposeful momentum.
                 </p>
                 <div className="mission-stats-strip">
                   <div className="mini-stat">

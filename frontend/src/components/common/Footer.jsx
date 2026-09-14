@@ -8,17 +8,17 @@ export default function Footer() {
       <div className="container-fluid footer-content">
         {/* Brand Column */}
         <div className="footer-brand-section">
-          <div className="footer-brand-row">
-            <div className="brand-icon-wrapper-sm">
-              <Sparkles size={15} />
-            </div>
-            <span className="footer-brand-name">GetYourDestination</span>
-            <span className="footer-version-badge">v2.0 PRO</span>
-          </div>
+          <Link to="/" className="footer-brand-logo-wrap">
+            <img 
+              src="/logo.png" 
+              alt="GetYourDestination — Careers with Clarity" 
+              className="footer-brand-logo-img" 
+            />
+          </Link>
           <p className="footer-tagline">
             Bespoke AI career intelligence & executive interview strategy suite. Empowering candidates with tailored technical deep dives, STAR behavioral matrix frameworks, and ATS-optimized assets.
           </p>
-          <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.75rem' }}>
             <Link to="/service" className="btn-gold-outline" style={{ padding: '0.45rem 1rem', fontSize: '0.8rem' }}>
               Launch Studio <ArrowUpRight size={14} />
             </Link>

@@ -106,8 +106,11 @@ export default function Home() {
             </motion.div>
 
             <motion.div className="page-header" variants={itemVariants}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                    <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', border: '1px solid var(--gold-border)' }} />
+                </div>
                 <h1>Target Your <span>Next Career Destination</span></h1>
-                <p>Upload your resume and paste the job description to get an AI-powered interview preparation strategy tailored just for you.</p>
+                <p>Upload your resume and paste the job description to get an AI-powered interview preparation strategy tailored just for you in 3 to 5 seconds.</p>
             </motion.div>
 
             <motion.div className="main-card" variants={itemVariants}>

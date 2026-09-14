@@ -131,12 +131,9 @@ const interviewReportSchema = new Schema({
     ref: "User",
     required: [true, "User is required"],
   },
-
 }, { timestamps: true });
 
-
-
-
+interviewReportSchema.index({ user: 1, createdAt: -1 });
 
 const InterviewReport = mongoose.model("InterviewReport", interviewReportSchema);
 

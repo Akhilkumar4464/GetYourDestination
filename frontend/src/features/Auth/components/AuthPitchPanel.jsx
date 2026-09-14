@@ -37,9 +37,9 @@ export default function AuthPitchPanel() {
   return (
     <div className="auth-pitch-panel">
       <div className="pitch-header">
-        <div className="pitch-badge">
-          <Sparkles size={14} />
-          <span>AI-Powered Career GPS</span>
+        <div className="pitch-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.75rem' }}>
+          <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 18, height: 18, borderRadius: 3, objectFit: 'cover' }} />
+          <span>Careers With Clarity</span>
         </div>
 
         <h2 className="pitch-title">

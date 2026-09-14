@@ -217,9 +217,17 @@ export function buildResumeHTML(report) {
 
     <!-- Header -->
     <div class="resume-header">
-      <h1>Your Full Name</h1>
-      <p class="role">${escapeHTML(jobTitle)}</p>
-      <div class="contact-row">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <h1>Your Full Name</h1>
+          <p class="role">${escapeHTML(jobTitle)}</p>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:12px; font-weight:700; color:#E5C358; letter-spacing:1px; text-transform:uppercase;">GetYourDestination</div>
+          <div style="font-size:10px; color:#9A968B;">Careers With Clarity</div>
+        </div>
+      </div>
+      <div class="contact-row" style="margin-top:16px;">
         <span>📧 youremail@example.com</span>
         <span>📞 +91 00000 00000</span>
         <span>🔗 linkedin.com/in/yourprofile</span>

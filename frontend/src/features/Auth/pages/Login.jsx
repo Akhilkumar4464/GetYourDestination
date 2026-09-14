@@ -75,7 +75,7 @@ export default function Login() {
             <div className="form-header">
               <Link to="/" className="mobile-brand-logo">
                 <div className="brand-icon-wrapper-sm">
-                  <Sparkles size={16} />
+                  <img src="/logo-icon.png" alt="GetYourDestination Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
                 </div>
                 <span className="brand-name">GetYourDestination</span>
               </Link>

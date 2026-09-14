@@ -99,15 +99,16 @@ export default function Service() {
         {/* Intro Context Banner */}
         <section className="service-intro-strip">
           <div className="intro-badge">
-            <span className="gold-badge">
-              <Sparkles size={13} /> Gemini AI Strategy Studio
+            <span className="gold-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 1rem' }}>
+              <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 18, height: 18, borderRadius: 3, objectFit: 'cover' }} />
+              <span>Gemini AI Strategy Studio</span>
             </span>
           </div>
           <h1>
             Target Your Next <span className="gold-gradient">Career Destination</span>
           </h1>
           <p>
-            Supply the exact job description along with your resume or background summary. Our intelligence engine synthesizes role-calibrated technical questions, STAR behavioral frameworks, skill gaps, and an ATS-ready resume skeleton.
+            Supply the exact job description along with your resume or background summary. Our intelligence engine synthesizes role-calibrated technical questions, STAR behavioral frameworks, skill gaps, and an ATS-ready resume skeleton in just 3 to 5 seconds.
           </p>
         </section>
 

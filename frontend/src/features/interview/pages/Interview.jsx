@@ -173,8 +173,9 @@ export default function Interview() {
             <span className="verified-badge">
               <ShieldCheck size={13} /> Gemini AI Calibrated
             </span>
-            <span className="gold-badge" style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem' }}>
-              <Sparkles size={12} /> Executive Blueprint
+            <span className="gold-badge" style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+              <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 14, height: 14, borderRadius: 2, objectFit: 'cover' }} />
+              <span>Executive Blueprint</span>
             </span>
           </div>
         </div>

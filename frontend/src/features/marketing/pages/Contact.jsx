@@ -90,8 +90,9 @@ export default function Contact() {
         <section className="contact-header">
           <div className="contact-glow" />
           <div className="container-fluid">
-            <span className="gold-badge" style={{ marginBottom: '1.25rem' }}>
-              <Sparkles size={13} /> Advisory & Candidate Support
+            <span className="gold-badge" style={{ marginBottom: '1.25rem', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 1rem' }}>
+              <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 18, height: 18, borderRadius: 3, objectFit: 'cover' }} />
+              <span>Advisory & Candidate Support</span>
             </span>
             <h1>
               We Are Here To Assist Your <br />

@@ -130,8 +130,9 @@ export default function Home() {
           <div className="hero-glow-vignette" />
           <div className="container-fluid hero-content">
             <motion.div className="hero-badge" variants={itemVariants}>
-              <span className="gold-badge">
-                <Sparkles size={13} /> Executive Interview Advisory Edition
+              <span className="gold-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 1rem' }}>
+                <img src="/logo-icon.png" alt="GetYourDestination" style={{ width: 20, height: 20, borderRadius: 4, objectFit: 'cover' }} />
+                <span>Executive Interview Advisory Edition</span>
               </span>
             </motion.div>
 
@@ -141,7 +142,7 @@ export default function Home() {
             </motion.h1>
 
             <motion.p className="hero-subtitle" variants={itemVariants}>
-              Precision AI career intelligence tailored to your exact target position. Generate role-calibrated technical deep dives, STAR behavioral matrices, and 7-day roadmaps in seconds.
+              Precision AI career intelligence tailored to your exact target position. Synthesize role-calibrated technical deep dives, STAR behavioral matrices, and 7-day roadmaps in just 3 to 5 seconds.
             </motion.p>
 
             <motion.div className="hero-cta-group" variants={itemVariants}>
@@ -285,10 +286,17 @@ export default function Home() {
           <div className="container-fluid">
             <div className="cta-card-luxury">
               <div className="cta-card-glow" />
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <img 
+                  src="/logo.png" 
+                  alt="GetYourDestination Logo" 
+                  style={{ maxHeight: '60px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 4px 12px rgba(201,162,39,0.3))' }} 
+                />
+              </div>
               <span className="section-tagline">Take The Initiative</span>
               <h2>Step Into Your Next Interview Primed For Excellence</h2>
               <p>
-                Synthesize your bespoke interview preparation strategy in under 30 seconds. No fluff, pure tailored precision.
+                Synthesize your bespoke interview preparation strategy in just 3 to 5 seconds. No fluff, pure tailored precision.
               </p>
               <div className="cta-buttons">
                 <Link to="/service" className="btn-gold-solid" style={{ padding: '0.85rem 2.25rem' }}>

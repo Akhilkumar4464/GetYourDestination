@@ -42,7 +42,7 @@ export default function Navbar() {
         {/* Brand / Logo with Obsidian & Gold Styling */}
         <Link to="/" className="navbar-brand">
           <div className="brand-icon-wrapper">
-            <Sparkles size={18} />
+            <img src="/logo-icon.png" alt="GetYourDestination Logo" className="navbar-brand-logo-img" />
           </div>
           <div className="brand-text-group">
             <span className="brand-name">GetYourDestination</span>
