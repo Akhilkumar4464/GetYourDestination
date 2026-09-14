@@ -4,12 +4,14 @@ import "../styles/Home.scss";
 import { useInterview } from "../hooks/useInterview";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/hooks/useAuth";
+import { useToast } from "../../../context/ToastContext";
 import Button from "../../../components/common/Button";
 import SEO from "../../../components/common/SEO";
 
 export default function Home() {
     const { loading, generateReport, reports, fetchReportsByUserId } = useInterview();
     const { user, handleLogout } = useAuth();
+    const { showToast } = useToast();
     const [jobDescription, setJobDescription] = useState("");
     const [selfDescription, setSelfDescription] = useState("");
     const [resumeFile, setResumeFile] = useState(null);
@@ -30,20 +32,36 @@ export default function Home() {
     }, []);
 
     const handleGenerateReport = async () => {
+        if (!jobDescription) {
+            showToast("Please provide a Job Description.", "error");
+            return;
+        }
+
+        if (!resumeFile && !selfDescription) {
+            showToast("Please upload your Resume or provide a Quick Self-Description.", "error");
+            return;
+        }
+
         try {
+            showToast("Synthesizing your interview strategy...", "info");
             const data = await generateReport({
                 jobDescription,
                 resume: resumeFile,
                 selfDescription
             });
 
-            if (data?.report?._id) {
-                navigate(`/interview/${data.report._id}`);
-            } else if (data?._id) {
-                navigate(`/interview/${data._id}`);
+            const reportId = data?.report?._id || data?._id;
+            if (reportId) {
+                showToast("Strategy generated successfully!", "success");
+                navigate(`/interview/${reportId}`);
             }
         } catch (error) {
             console.error("Report generation failed:", error);
+            const serverMsg =
+                error?.response?.data?.error ||
+                error?.response?.data?.message ||
+                "Failed to generate report. Please check your inputs and try again.";
+            showToast(serverMsg, "error");
         }
     };
 
