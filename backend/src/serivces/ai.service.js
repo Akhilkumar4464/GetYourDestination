@@ -2,71 +2,38 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Initialize Google Generative AI
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
-if (!process.env.GOOGLE_API_KEY) {
-  console.warn("⚠️  GOOGLE_API_KEY is not set in environment variables");
-}
-
-// Fast retry delay
+// Fast delay helper
 function delay(ms) {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-// Resilient fast generation
-async function safeGenerate(model, prompt, retries = 2) {
-  try {
-    return await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: {
-        responseMimeType: "application/json",
-        temperature: 0.2,
-        maxOutputTokens: 2048,
-        thinkingConfig: {
-          thinkingBudget: 0,
-        },
-      },
-    });
-  } catch (err) {
-    const isRateLimit =
-      err?.message?.includes("429") ||
-      err?.message?.includes("Too Many Requests") ||
-      err?.message?.includes("503") ||
-      err?.message?.includes("Service Unavailable");
-
-    if (isRateLimit && retries > 0) {
-      console.log("⏳ Fast retry after brief delay...");
-      await delay(500);
-      return safeGenerate(model, prompt, retries - 1);
-    }
-
-    console.error("AI Generation Error:", err.message);
-    throw err;
-  }
+// Helper to get configured Google/Gemini API key
+function getApiKey() {
+  return (
+    process.env.GOOGLE_API_KEY ||
+    process.env.GEMINI_API_KEY ||
+    process.env.GOOGLE_GENAI_API_KEY ||
+    ""
+  ).trim();
 }
 
 /**
- * Main Report Generation Service
- * Highly optimized for 3-5 second response times with Gemini 2.5 Flash
+ * Robust AI content generation with automatic model fallback & rate-limit retries
  */
 export async function generateContent({ resume, selfDescription, jobDescription }) {
-  // Pre-trim input text to eliminate prompt ingestion latency
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    throw new Error(
+      "Google Gemini API Key is missing. Please configure GOOGLE_API_KEY or GEMINI_API_KEY in your deployment environment variables."
+    );
+  }
+
+  const genAI = new GoogleGenerativeAI(apiKey);
+
+  // Pre-trim input text
   const cleanResume = (resume || "").slice(0, 4000).trim();
   const cleanSelfDesc = (selfDescription || "").slice(0, 1500).trim();
   const cleanJobDesc = (jobDescription || "").slice(0, 3500).trim();
-
-  const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-  const model = genAI.getGenerativeModel({
-    model: modelName,
-    generationConfig: {
-      responseMimeType: "application/json",
-      temperature: 0.2,
-      maxOutputTokens: 2048,
-      thinkingConfig: {
-        thinkingBudget: 0,
-      },
-    },
-  });
 
   const prompt = `You are an elite executive interviewer and technical career coach.
 Analyze the target job description and candidate background, then output a high-precision interview strategy report.
@@ -118,26 +85,83 @@ ${cleanSelfDesc || "Not provided (refer to resume)"}
 Target Job Description:
 ${cleanJobDesc}`;
 
-  const result = await safeGenerate(model, prompt);
-  const response = await result.response;
-  const text = response.text();
-  const cleanText = text.replace(/^```json\s*|```$/g, "").trim();
+  // Candidate models in priority order.
+  // Note: "gemini-2.5-flash" does not exist; we filter it out if set in env.
+  const envModel = (process.env.GEMINI_MODEL || "").trim();
+  const validEnvModel =
+    envModel && envModel !== "gemini-2.5-flash" ? envModel : null;
 
-  try {
-    return JSON.parse(cleanText);
-  } catch (parseError) {
-    console.error("AI response parse error. Raw text was:", cleanText.slice(0, 300));
-    // Fallback: search for JSON object boundary
-    const firstBrace = cleanText.indexOf("{");
-    const lastBrace = cleanText.lastIndexOf("}");
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-      return JSON.parse(cleanText.substring(firstBrace, lastBrace + 1));
+  const modelCandidates = [
+    validEnvModel,
+    "gemini-1.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-pro",
+    "gemini-2.0-flash-lite"
+  ].filter(Boolean);
+
+  // Remove duplicates
+  const uniqueModels = [...new Set(modelCandidates)];
+
+  let lastError = null;
+
+  for (const candidateModel of uniqueModels) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: candidateModel,
+          generationConfig: {
+            responseMimeType: "application/json",
+            temperature: 0.2,
+            maxOutputTokens: 2048,
+          },
+        });
+
+        const result = await model.generateContent({
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+        });
+
+        const response = await result.response;
+        const text = response.text();
+        const cleanText = text.replace(/^```json\s*|```$/g, "").trim();
+
+        try {
+          return JSON.parse(cleanText);
+        } catch (parseErr) {
+          const firstBrace = cleanText.indexOf("{");
+          const lastBrace = cleanText.lastIndexOf("}");
+          if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+            return JSON.parse(cleanText.substring(firstBrace, lastBrace + 1));
+          }
+          throw parseErr;
+        }
+      } catch (err) {
+        lastError = err;
+        const isRateLimit =
+          err?.message?.includes("429") ||
+          err?.message?.includes("Too Many Requests") ||
+          err?.message?.includes("503") ||
+          err?.message?.includes("Service Unavailable");
+
+        if (isRateLimit && attempt === 0) {
+          console.warn(`⏳ Rate limited on model ${candidateModel}, waiting 1s...`);
+          await delay(1000);
+          continue; // retry same model once
+        }
+
+        console.warn(`⚠️ Model ${candidateModel} failed: ${err.message}. Trying next candidate...`);
+        break; // break inner loop and try next model
+      }
     }
-    throw new Error("AI returned an invalid response format. Please try again.");
   }
+
+  console.error("All Gemini model candidates failed. Last error:", lastError?.message);
+  throw new Error(
+    lastError?.message || "Failed to generate AI strategy. Please verify your Gemini API key."
+  );
 }
 
 export default {
   generateContent,
 };
+
 

@@ -77,7 +77,11 @@ export default function Service() {
       }
     } catch (error) {
       console.error("Report generation failed:", error);
-      showToast("Failed to generate strategy. Please check your inputs and try again.", "error");
+      const serverMsg =
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        "Failed to generate strategy. Please check your inputs and try again.";
+      showToast(serverMsg, "error");
     }
   };
 
