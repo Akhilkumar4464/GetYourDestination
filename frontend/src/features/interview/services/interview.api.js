@@ -23,11 +23,7 @@ export const generateInterviewReport = async (userId, resume, selfDescription, j
     formData.append("selfDescription", selfDescription || "");
     formData.append("jobDescription", jobDescription || "");
 
-    const response = await api.post(`/ai/generate`, formData, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        }
-    });
+    const response = await api.post(`/ai/generate`, formData);
     return response.data;
 };
 
