@@ -378,4 +378,4 @@ Requirements:
 
 export default {
   generateContent,
-}; v
+}; 
